@@ -1,0 +1,28 @@
+﻿{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "QuestAssetPlugin",
+	"Description": "Quest asset for use with a graph editor",
+	"Category": "Other",
+	"CreatedBy": "Tomasz Piekarczyk",
+	"CreatedByURL": "https://github.com/Mromru/QuestAssetPlugin",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "QuestAssetPlugin",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "QuestAssetPluginEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
