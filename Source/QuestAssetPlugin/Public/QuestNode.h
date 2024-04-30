@@ -6,8 +6,11 @@
 #include "UObject/Object.h"
 #include "QuestNode.generated.h"
 
+class UQuestNodeCondition;
+class UQuestNodeEvent;
+class UQuestNodeEventPayload;
 /**
- * 
+ * Quest node. A unit of work in a Quest.
  */
 UCLASS(Blueprintable)
 class QUESTASSETPLUGIN_API UQuestNode : public UObject
@@ -25,6 +28,30 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void LeaveNode(bool Success);
 
+	virtual bool CanActivateNode();
+
+	/* You might want to override this method fully in the subclasses. Returns UQuestNodeEventPayload object used when calling NodeActivatedEvents */
+	virtual UQuestNodeEventPayload* GetNodeActivatedEventContext();
+
+	/* You might want to override this method fully in the subclasses. Returns UQuestNodeEventPayload object used when calling NodeLeavingEvents */
+	virtual UQuestNodeEventPayload* GetNodeLeavingEventContext(bool Success);
+
+	/* Needs to be met before node Activation. For more complicated conditions it can be composed of AND_Conditions and OR_Conditions */ //TODO add CompositeConditions
+	UPROPERTY(EditDefaultsOnly)
+	UQuestNodeCondition* ActivationCondition;
+	
+	/* Events that are activated when node is Activating */
+	UPROPERTY(EditDefaultsOnly)
+	TArray<UQuestNodeEvent*> NodeActivatedEvents;
+
+	/* Events that are activated when node is Leaving with a success state */
+	UPROPERTY(EditDefaultsOnly)
+	TArray<UQuestNodeEvent*> NodeLeavingSuccessfullyEvents;
+
+	/* Events that are activated when node is leaving with a failed state */
+	UPROPERTY(EditDefaultsOnly)
+	TArray<UQuestNodeEvent*> NodeLeavingFailedEvents;
+	
 protected:
 	/*Quest, that this instance of the node is a part of*/
 	UPROPERTY()
