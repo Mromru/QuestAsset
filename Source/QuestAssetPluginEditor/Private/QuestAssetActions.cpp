@@ -30,3 +30,4 @@ uint32 FQuestAssetActions::GetCategories()
 {
 	return AssetCategory;
 }
+#undef LOCTEXT_NAMESPACE
