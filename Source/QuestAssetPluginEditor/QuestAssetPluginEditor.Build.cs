@@ -25,7 +25,8 @@ public class QuestAssetPluginEditor : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core",
+				"Core", 
+				"AssetTools",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -37,7 +38,9 @@ public class QuestAssetPluginEditor : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore",
+				"SlateCore", 
+				"QuestAssetPlugin",
+				"UnrealEd",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
