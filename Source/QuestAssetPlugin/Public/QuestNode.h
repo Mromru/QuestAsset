@@ -51,6 +51,15 @@ public:
 	/* Events that are activated when node is leaving with a failed state */
 	UPROPERTY(EditDefaultsOnly)
 	TArray<UQuestNodeEvent*> NodeLeavingFailedEvents;
+
+	/* Parents - Nodes that directly lead to the node */
+	TArray<UQuestNode> Parents;
+	
+	/* Children - Paths that can be taken after the execution of the node ends
+	 * First nodes in collection having highest priority.
+	 * This needs to be sorted externally by an asset editor.
+	 */
+	TArray<UQuestNode> PrioritizedChildren;
 	
 protected:
 	/*Quest, that this instance of the node is a part of*/
