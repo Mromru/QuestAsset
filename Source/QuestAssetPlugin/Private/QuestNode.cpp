@@ -25,14 +25,14 @@ void UQuestNode::LeaveNode_Implementation(bool Success)
 	const UQuestNodeEventPayload* Context = GetNodeLeavingEventContext(Success);
 	if(Success)
 	{
-		for(auto& Event : NodeLeavingSuccessfullyEvents)
+		for(auto& Event : NodeSucceededEvents)
 		{
 			Event->ActivateEvent(Context);
 		}
 	}
 	else
 	{
-		for(auto& Event : NodeLeavingFailedEvents)
+		for(auto& Event : NodeFailedEvents)
 		{
 			Event->ActivateEvent(Context);
 		}

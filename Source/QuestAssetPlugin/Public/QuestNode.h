@@ -46,11 +46,11 @@ public:
 
 	/* Events that are activated when node is Leaving with a success state */
 	UPROPERTY(EditDefaultsOnly)
-	TArray<UQuestNodeEvent*> NodeLeavingSuccessfullyEvents;
+	TArray<UQuestNodeEvent*> NodeSucceededEvents;
 
 	/* Events that are activated when node is leaving with a failed state */
 	UPROPERTY(EditDefaultsOnly)
-	TArray<UQuestNodeEvent*> NodeLeavingFailedEvents;
+	TArray<UQuestNodeEvent*> NodeFailedEvents;
 
 	/* Parents - Nodes that directly lead to the node */
 	TArray<UQuestNode> Parents;
