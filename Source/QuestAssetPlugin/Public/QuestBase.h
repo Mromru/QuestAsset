@@ -23,6 +23,10 @@ class QUESTASSETPLUGIN_API UQuestBase : public UObject
 
 	//We don't want to expose the control logic of the quest to the public api, so we befriend UQuestNode, so it has those privileges
 	friend UQuestNodeBase;
+
+#if WITH_EDITORONLY_DATA && 0 //Integration with the editor. Schema should be able to add/modify nodes freely. 
+	friend class UQuestEdGraphSchemaBase;
+#endif
 	
 public:
 	/* Name of the quest, which appears in the quest journal */

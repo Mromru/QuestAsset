@@ -16,6 +16,11 @@ UCLASS(Blueprintable)
 class QUESTASSETPLUGIN_API UQuestNodeBase : public UObject
 {
 	GENERATED_BODY()
+
+#if WITH_EDITORONLY_DATA && 0 //Integration with the editor. Schema should be able to add/modify nodes freely. 
+	friend class UQuestEdGraphSchemaBase;
+#endif
+	
 public:
 	/* Called at the beginning of execution of the node.
 	 * Responsible for logic of how to get to the LeaveNode() and with what effect (success/failure)
