@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "QuestNodeCondition.generated.h"
+#include "QuestNodeConditionBase.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnQuestNodeConditionStateChanged, bool /*NewState*/)
 DECLARE_DELEGATE_OneParam(FOnQuestNodeConditionStateChangedObserver, bool /*NewState*/)
@@ -13,7 +13,7 @@ DECLARE_DELEGATE_OneParam(FOnQuestNodeConditionStateChangedObserver, bool /*NewS
  * Conditions allow execution of the node. They are only active when associated is active or waits for a valid successor.
  */
 UCLASS(Abstract, Blueprintable)
-class QUESTASSETPLUGIN_API UQuestNodeCondition : public UObject
+class QUESTASSETPLUGIN_API UQuestNodeConditionBase : public UObject
 {
 	GENERATED_BODY()
 

@@ -5,13 +5,13 @@
 #include "CoreMinimal.h"
 #include "QuestNodeEventPayload.h"
 #include "UObject/Object.h"
-#include "QuestNodeEvent.generated.h"
+#include "QuestNodeEventBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class QUESTASSETPLUGIN_API UQuestNodeEvent : public UObject
+class QUESTASSETPLUGIN_API UQuestNodeEventBase : public UObject
 {
 	GENERATED_BODY()
 public:

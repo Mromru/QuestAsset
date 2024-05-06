@@ -1,44 +1,44 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Quest.h"
+#include "QuestBase.h"
 
-#include "QuestNode.h"
+#include "QuestNodeBase.h"
 
-void UQuest::StartQuestFromBeginning()
+void UQuestBase::StartQuestFromBeginning()
 {
 	if(OnQuestStarted.IsBound())
 		OnQuestStarted.Broadcast();
 	StartQuestFromNode(RootNode);
 }
 
-void UQuest::StartQuestFromNode(UQuestNode* Node)
+void UQuestBase::StartQuestFromNode(UQuestNodeBase* Node)
 {
 	ActiveNode = Node;
 	ActiveNode->ActivateNode();
 }
 
-void UQuest::NotifyNodeActivated(UQuestNode* QuestNode)
+void UQuestBase::NotifyNodeActivated(UQuestNodeBase* QuestNode)
 {
 	ensure(QuestNode == ActiveNode);
 	if(OnNodeActivated.IsBound())
 		OnNodeActivated.Broadcast(QuestNode);
 }
 
-void UQuest::NotifyNodeLeft(UQuestNode* QuestNode)
+void UQuestBase::NotifyNodeLeft(UQuestNodeBase* QuestNode)
 {
 	ensure(QuestNode == ActiveNode);
 	if(OnNodeLeft.IsBound())
 		OnNodeLeft.Broadcast(QuestNode);
 }
 
-void UQuest::FinishQuest(bool Success)
+void UQuestBase::FinishQuest(bool Success)
 {
 	if(OnQuestEnded.IsBound())
 		OnQuestEnded.Broadcast(Success);
 }
 
-void UQuest::RunQuest()
+void UQuestBase::RunQuest()
 {
 	StartQuestFromBeginning();
 }

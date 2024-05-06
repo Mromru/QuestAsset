@@ -17,9 +17,9 @@ class QUESTASSETPLUGIN_API UQuestNodeEventPayload : public UObject
 public:
 	/*The Quest that the calling node is a part of*/
 	UPROPERTY(VisibleAnywhere)
-	UQuest* Quest;
+	UQuestBase* Quest;
 
 	/*A node calling the event*/
 	UPROPERTY(VisibleAnywhere)
-	UQuestNode* QuestNode;
+	UQuestNodeBase* QuestNode;
 };

@@ -1,15 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "QuestNode.h"
+#include "QuestNodeBase.h"
 
-#include "Quest.h"
-#include "QuestNodeCondition.h"
-#include "QuestNodeEvent.h"
+#include "QuestBase.h"
+#include "QuestNodeConditionBase.h"
+#include "QuestNodeEventBase.h"
 #include "QuestNodeEventPayload.h"
 #include "EventPayloads/QuestNodeLeavingEventPayload.h"
 
-void UQuestNode::ActivateNode_Implementation()
+void UQuestNodeBase::ActivateNode_Implementation()
 {
 	Quest->NotifyNodeActivated(this);
 
@@ -20,7 +20,7 @@ void UQuestNode::ActivateNode_Implementation()
 	}
 }
 
-void UQuestNode::LeaveNode_Implementation(bool Success)
+void UQuestNodeBase::LeaveNode_Implementation(bool Success)
 {
 	const UQuestNodeEventPayload* Context = GetNodeLeavingEventContext(Success);
 	if(Success)
@@ -40,12 +40,12 @@ void UQuestNode::LeaveNode_Implementation(bool Success)
 	Quest->NotifyNodeLeft(this);
 }
 
-bool UQuestNode::CanActivateNode()
+bool UQuestNodeBase::CanActivateNode()
 {
 	return ActivationCondition->EvaluateCondition();
 }
 
-UQuestNodeEventPayload* UQuestNode::GetNodeActivatedEventContext()
+UQuestNodeEventPayload* UQuestNodeBase::GetNodeActivatedEventContext()
 {
 	auto Context = NewObject<UQuestNodeEventPayload>();
 	Context->Quest = Quest;
@@ -53,7 +53,7 @@ UQuestNodeEventPayload* UQuestNode::GetNodeActivatedEventContext()
 	return Context;
 }
 
-UQuestNodeEventPayload* UQuestNode::GetNodeLeavingEventContext(bool Success)
+UQuestNodeEventPayload* UQuestNodeBase::GetNodeLeavingEventContext(bool Success)
 {
 	auto Context = NewObject<UQuestNodeLeavingEventPayload>();
 	Context->Quest = Quest;

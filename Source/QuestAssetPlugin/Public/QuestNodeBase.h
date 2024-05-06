@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "QuestNode.generated.h"
+#include "QuestNodeBase.generated.h"
 
-class UQuestNodeCondition;
-class UQuestNodeEvent;
+class UQuestNodeConditionBase;
+class UQuestNodeEventBase;
 class UQuestNodeEventPayload;
 /**
  * Quest node. A unit of work in a Quest.
  */
 UCLASS(Blueprintable)
-class QUESTASSETPLUGIN_API UQuestNode : public UObject
+class QUESTASSETPLUGIN_API UQuestNodeBase : public UObject
 {
 	GENERATED_BODY()
 public:
@@ -38,31 +38,31 @@ public:
 
 	/* Needs to be met before node Activation. For more complicated conditions it can be composed of AND_Conditions and OR_Conditions */ //TODO add CompositeConditions
 	UPROPERTY(EditDefaultsOnly)
-	UQuestNodeCondition* ActivationCondition;
+	UQuestNodeConditionBase* ActivationCondition;
 	
 	/* Events that are activated when node is Activating */
 	UPROPERTY(EditDefaultsOnly)
-	TArray<UQuestNodeEvent*> NodeActivatedEvents;
+	TArray<UQuestNodeEventBase*> NodeActivatedEvents;
 
 	/* Events that are activated when node is Leaving with a success state */
 	UPROPERTY(EditDefaultsOnly)
-	TArray<UQuestNodeEvent*> NodeSucceededEvents;
+	TArray<UQuestNodeEventBase*> NodeSucceededEvents;
 
 	/* Events that are activated when node is leaving with a failed state */
 	UPROPERTY(EditDefaultsOnly)
-	TArray<UQuestNodeEvent*> NodeFailedEvents;
+	TArray<UQuestNodeEventBase*> NodeFailedEvents;
 
 	/* Parents - Nodes that directly lead to the node */
-	TArray<UQuestNode> Parents;
+	TArray<UQuestNodeBase> Parents;
 	
 	/* Children - Paths that can be taken after the execution of the node ends
 	 * First nodes in collection having highest priority.
 	 * This needs to be sorted externally by an asset editor.
 	 */
-	TArray<UQuestNode> PrioritizedChildren;
+	TArray<UQuestNodeBase> PrioritizedChildren;
 	
 protected:
 	/*Quest, that this instance of the node is a part of*/
 	UPROPERTY()
-	UQuest* Quest;
+	UQuestBase* Quest;
 };

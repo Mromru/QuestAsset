@@ -3,16 +3,16 @@
 
 #include "QuestFactory.h"
 
-#include "Quest.h"
+#include "QuestBase.h"
 
 UQuestFactory::UQuestFactory()
 {
-    SupportedClass = UQuest::StaticClass();
+    SupportedClass = UQuestBase::StaticClass();
     bCreateNew = true;
 }
 
 UObject* UQuestFactory::FactoryCreateNew(UClass* InClass, UObject* InParent, FName InName, EObjectFlags Flags,
     UObject* Context, FFeedbackContext* Warn)
 {
-    return NewObject<UQuest>(InParent, UQuest::StaticClass(), InName, Flags, Context);
+    return NewObject<UQuestBase>(InParent, UQuestBase::StaticClass(), InName, Flags, Context);
 }

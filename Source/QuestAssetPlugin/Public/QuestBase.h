@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "Quest.generated.h"
+#include "QuestBase.generated.h"
 
-class UQuestNode;
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnNodeActivated, UQuestNode*);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnNodeLeft, UQuestNode*);
+class UQuestNodeBase;
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnNodeActivated, UQuestNodeBase*);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnNodeLeft, UQuestNodeBase*);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnQuestEnded, bool)
 DECLARE_MULTICAST_DELEGATE(FOnQuestStarted)
 
@@ -17,12 +17,12 @@ DECLARE_MULTICAST_DELEGATE(FOnQuestStarted)
  * Consists of QuestNodes and allows execution of their code.
  */
 UCLASS(BlueprintType)
-class QUESTASSETPLUGIN_API UQuest : public UObject
+class QUESTASSETPLUGIN_API UQuestBase : public UObject
 {
 	GENERATED_BODY()
 
 	//We don't want to expose the control logic of the quest to the public api, so we befriend UQuestNode, so it has those privileges
-	friend UQuestNode;
+	friend UQuestNodeBase;
 	
 public:
 	/* Name of the quest, which appears in the quest journal */
@@ -34,7 +34,7 @@ public:
 
 	/* Starts a quest from a given node, which could be used to restore a quest state from a save system */
 	UFUNCTION(BlueprintCallable)
-	void StartQuestFromNode(UQuestNode* Node);
+	void StartQuestFromNode(UQuestNodeBase* Node);
 
 	UFUNCTION(BlueprintCallable)
 	void FinishQuest(bool Success);
@@ -54,15 +54,15 @@ public:
 protected:
 	/* Start node of a quest */
 	UPROPERTY()
-	UQuestNode* RootNode;
+	UQuestNodeBase* RootNode;
 
 	/* Active node, not saved in the asset */
 	UPROPERTY(Transient)
-	UQuestNode* ActiveNode;
+	UQuestNodeBase* ActiveNode;
 
 	/* Called in ActiveNode's Activate method */
-	void NotifyNodeActivated(UQuestNode* QuestNode);
+	void NotifyNodeActivated(UQuestNodeBase* QuestNode);
 
 	/* Called in ActiveNode's Leave method*/
-	void NotifyNodeLeft(UQuestNode* QuestNode);
+	void NotifyNodeLeft(UQuestNodeBase* QuestNode);
 };

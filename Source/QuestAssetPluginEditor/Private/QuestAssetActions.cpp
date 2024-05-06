@@ -3,7 +3,7 @@
 
 #include "QuestAssetActions.h"
 
-#include "Quest.h"
+#include "QuestBase.h"
 
 #define LOCTEXT_NAMESPACE
 FQuestAssetActions::FQuestAssetActions(const uint32 InAssetCategory)
@@ -18,7 +18,7 @@ FText FQuestAssetActions::GetName() const
 
 UClass* FQuestAssetActions::GetSupportedClass() const
 {
-	return UQuest::StaticClass();
+	return UQuestBase::StaticClass();
 }
 
 FColor FQuestAssetActions::GetTypeColor() const
