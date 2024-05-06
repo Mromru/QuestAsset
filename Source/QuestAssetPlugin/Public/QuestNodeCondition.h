@@ -26,7 +26,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void ShutdownCondition();
 
-	/* Here you evaluate the condition */
+	/* Here you specify the condition logic*/
 	UFUNCTION(BlueprintNativeEvent)
 	bool EvaluateCondition();
 
