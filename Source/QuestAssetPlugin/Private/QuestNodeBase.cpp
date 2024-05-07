@@ -22,21 +22,7 @@ void UQuestNodeBase::ActivateNode_Implementation()
 
 void UQuestNodeBase::LeaveNode_Implementation(bool Success)
 {
-	const UQuestNodeEventPayload* Context = GetNodeLeavingEventContext(Success);
-	if(Success)
-	{
-		for(auto& Event : NodeSucceededEvents)
-		{
-			Event->ActivateEvent(Context);
-		}
-	}
-	else
-	{
-		for(auto& Event : NodeFailedEvents)
-		{
-			Event->ActivateEvent(Context);
-		}
-	}
+	ActivateLeavingNodeEvents(Success);
 	Quest->NotifyNodeLeft(this);
 }
 
@@ -60,5 +46,24 @@ UQuestNodeEventPayload* UQuestNodeBase::GetNodeLeavingEventContext(bool Success)
 	Context->QuestNode = this;
 	Context->Success = Success;
 	return Context;
+}
+
+void UQuestNodeBase::ActivateLeavingNodeEvents(bool Success)
+{
+	const UQuestNodeEventPayload* Context = GetNodeLeavingEventContext(Success);
+	if(Success)
+	{
+		for(auto& Event : NodeSucceededEvents)
+		{
+			Event->ActivateEvent(Context);
+		}
+	}
+	else
+	{
+		for(auto& Event : NodeFailedEvents)
+		{
+			Event->ActivateEvent(Context);
+		}
+	}
 }
 

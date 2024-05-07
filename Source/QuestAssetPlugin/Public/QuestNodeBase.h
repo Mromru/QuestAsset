@@ -67,6 +67,9 @@ public:
 	TArray<UQuestNodeBase> PrioritizedChildren;
 	
 protected:
+	/* Helper Function used to use broadcast events in LeaveNode */
+	void ActivateLeavingNodeEvents(bool Success);
+	
 	/*Quest, that this instance of the node is a part of*/
 	UPROPERTY()
 	UQuestBase* Quest;
