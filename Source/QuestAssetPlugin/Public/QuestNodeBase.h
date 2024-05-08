@@ -58,13 +58,13 @@ public:
 	TArray<UQuestNodeEventBase*> NodeFailedEvents;
 
 	/* Parents - Nodes that directly lead to the node */
-	TArray<UQuestNodeBase> Parents;
+	TArray<UQuestNodeBase*> Parents;
 	
 	/* Children - Paths that can be taken after the execution of the node ends
 	 * First nodes in collection having highest priority.
 	 * This needs to be sorted externally by an asset editor.
 	 */
-	TArray<UQuestNodeBase> PrioritizedChildren;
+	TArray<UQuestNodeBase*> PrioritizedChildren;
 	
 protected:
 	/* Helper Function used to use broadcast events in LeaveNode */
