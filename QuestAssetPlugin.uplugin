@@ -22,7 +22,7 @@
 		{
 			"Name": "QuestAssetPluginEditor",
 			"Type": "Editor",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "PreDefault"
 		}
 	]
 }
