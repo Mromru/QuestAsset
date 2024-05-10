@@ -20,14 +20,75 @@ void UQuestNodeBase::ActivateNode_Implementation()
 	}
 }
 
+void UQuestNodeBase::ActivateLeavingNodeEvents(bool Success)
+{
+	const UQuestNodeEventPayload* Context = GetNodeLeavingEventContext(Success);
+	if(Success)
+	{
+		for(auto& Event : NodeSucceededEvents)
+		{
+			Event->ActivateEvent(Context);
+		}
+	}
+	else
+	{
+		for(auto& Event : NodeFailedEvents)
+		{
+			Event->ActivateEvent(Context);
+		}
+	}
+}
+
 void UQuestNodeBase::LeaveNode_Implementation(bool Success)
 {
 	ActivateLeavingNodeEvents(Success);
-	Quest->NotifyNodeLeft(this);
+	NotifyNodeLeft(Success);
+	TryActivateNextNode();
+}
+
+void UQuestNodeBase::NotifyNodeActivated()
+{
+	Quest->NotifyNodeActivated(this);
+}
+
+void UQuestNodeBase::NotifyNodeLeft(bool Success)
+{
+	Quest->NotifyNodeLeft(this, Success);
+}
+
+void UQuestNodeBase::NotifyQuestEnded(bool Success)
+{
+	Quest->NotifyQuestEnded(this, Success);
+}
+
+void UQuestNodeBase::TryActivateNextNode()
+{
+	auto NextNode = TryGetNextNode();
+	if(NextNode != nullptr)
+		Quest->ChangeActiveNode(NextNode);
+	else
+	{
+		//TODO catch when no node is passing the condition
+	}
+}
+
+UQuestNodeBase* UQuestNodeBase::TryGetNextNode()
+{
+	for(UQuestNodeBase* Child : PrioritizedChildren)
+	{
+		if(Child->CanActivateNode())
+		{
+			return Child;
+		}
+	}
+	return nullptr;
 }
 
 bool UQuestNodeBase::CanActivateNode()
 {
+	if(!IsValid(ActivationCondition))
+		return true;
+	
 	return ActivationCondition->EvaluateCondition();
 }
 
@@ -46,24 +107,5 @@ UQuestNodeEventPayload* UQuestNodeBase::GetNodeLeavingEventContext(bool Success)
 	Context->QuestNode = this;
 	Context->Success = Success;
 	return Context;
-}
-
-void UQuestNodeBase::ActivateLeavingNodeEvents(bool Success)
-{
-	const UQuestNodeEventPayload* Context = GetNodeLeavingEventContext(Success);
-	if(Success)
-	{
-		for(auto& Event : NodeSucceededEvents)
-		{
-			Event->ActivateEvent(Context);
-		}
-	}
-	else
-	{
-		for(auto& Event : NodeFailedEvents)
-		{
-			Event->ActivateEvent(Context);
-		}
-	}
 }
 

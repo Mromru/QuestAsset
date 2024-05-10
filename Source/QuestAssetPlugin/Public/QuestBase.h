@@ -8,8 +8,8 @@
 
 class UQuestNodeBase;
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnNodeActivated, UQuestNodeBase*);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnNodeLeft, UQuestNodeBase*);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnQuestEnded, bool)
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnNodeLeft, UQuestNodeBase*, bool);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnQuestEnded, UQuestBase*, bool)
 DECLARE_MULTICAST_DELEGATE(FOnQuestStarted)
 
 /**
@@ -33,6 +33,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	FText QuestName;
 
+	/* Starts a quest from a root node. */
 	UFUNCTION(BlueprintCallable)
 	void StartQuestFromBeginning();
 
@@ -40,13 +41,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void StartQuestFromNode(UQuestNodeBase* Node);
 
-	UFUNCTION(BlueprintCallable)
-	void FinishQuest(bool Success);
-
 #if WITH_EDITORONLY_DATA
 	/* Utility function used to test the quest without launching the game*/
 	UFUNCTION(CallInEditor)
 	void RunQuest();
+
+	UPROPERTY()
+	UEdGraph* EdGraph;
 #endif
 	
 	/* Delegates, could be used for a debugger or a quest journal */
@@ -68,5 +69,12 @@ protected:
 	void NotifyNodeActivated(UQuestNodeBase* QuestNode);
 
 	/* Called in ActiveNode's Leave method*/
-	void NotifyNodeLeft(UQuestNodeBase* QuestNode);
+	void NotifyNodeLeft(UQuestNodeBase* QuestNode, bool Success);
+
+	/* Called when a quest needs to be ended */
+	UFUNCTION(BlueprintCallable)
+	void NotifyQuestEnded(UQuestNodeBase* QuestNode, bool Success);
+
+	/* Updates ActiveNode to specified Node and Activates it */
+	void ChangeActiveNode(UQuestNodeBase* Node);
 };

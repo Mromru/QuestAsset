@@ -9,6 +9,7 @@
 class UQuestNodeConditionBase;
 class UQuestNodeEventBase;
 class UQuestNodeEventPayload;
+
 /**
  * Quest node. A unit of work in a Quest.
  */
@@ -19,6 +20,7 @@ class QUESTASSETPLUGIN_API UQuestNodeBase : public UObject
 
 #if WITH_EDITORONLY_DATA && 0 //Integration with the editor. Schema should be able to add/modify nodes freely. 
 	friend class UQuestEdGraphSchemaBase;
+	friend class UQuestGraphNodeBase;
 #endif
 	
 public:
@@ -33,6 +35,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void LeaveNode(bool Success);
 
+	/* Node can be activated either when there is no condition or the condition returns Success */
 	virtual bool CanActivateNode();
 
 	/* You might want to override this method fully in the subclasses. Returns UQuestNodeEventPayload object used when calling NodeActivatedEvents */
@@ -65,12 +68,32 @@ public:
 	 * This needs to be sorted externally by an asset editor.
 	 */
 	TArray<UQuestNodeBase*> PrioritizedChildren;
-	
+
 protected:
+	/* Notify the quest a node was activated */
+	void NotifyNodeActivated();
+
+	/* Notify the quest a node has left*/
+	void NotifyNodeLeft(bool Success);
+
+	/* Notify the quest a node was the last node of a quest*/
+	void NotifyQuestEnded(bool Success);
+	
+	/*Activates Node*/
+	void TryActivateNextNode();
+	
+	/*Gets a next child node that is ready to be activated. TODO when none is found, observe the conditions*/
+	virtual UQuestNodeBase* TryGetNextNode();
+	
 	/* Helper Function used to use broadcast events in LeaveNode */
 	void ActivateLeavingNodeEvents(bool Success);
 	
 	/*Quest, that this instance of the node is a part of*/
 	UPROPERTY()
 	UQuestBase* Quest;
+
+#if WITH_EDITORONLY_DATA && 0
+	//UPROPERTY(VisibleAnywhere)
+	//class UEdGraphNode* GraphNode;
+#endif
 };

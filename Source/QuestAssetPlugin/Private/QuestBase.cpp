@@ -25,17 +25,24 @@ void UQuestBase::NotifyNodeActivated(UQuestNodeBase* QuestNode)
 		OnNodeActivated.Broadcast(QuestNode);
 }
 
-void UQuestBase::NotifyNodeLeft(UQuestNodeBase* QuestNode)
+void UQuestBase::NotifyNodeLeft(UQuestNodeBase* QuestNode, bool Success)
 {
 	ensure(QuestNode == ActiveNode);
 	if(OnNodeLeft.IsBound())
-		OnNodeLeft.Broadcast(QuestNode);
+		OnNodeLeft.Broadcast(QuestNode, Success);
 }
 
-void UQuestBase::FinishQuest(bool Success)
+void UQuestBase::NotifyQuestEnded(UQuestNodeBase* QuestNode, bool Success)
 {
+	ensure(QuestNode == ActiveNode);
 	if(OnQuestEnded.IsBound())
-		OnQuestEnded.Broadcast(Success);
+		OnQuestEnded.Broadcast(this, Success);
+}
+
+void UQuestBase::ChangeActiveNode(UQuestNodeBase* Node)
+{
+	ActiveNode = Node;
+	Node->ActivateNode();
 }
 
 void UQuestBase::RunQuest()
